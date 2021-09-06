@@ -32,7 +32,7 @@ typedef struct s_control
 {
 	t_philo	*arr;
 	pthread_mutex_t *forks;
-	int				*used_forks;
+	int				*forks_status;
 	pthread_mutex_t log;
 	int				philosophers_ended;
 	int				target;

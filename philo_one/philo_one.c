@@ -3,6 +3,18 @@
 #include <unistd.h>
 #include <stdio.h>
 
+void	numbered_philo_log(t_philo *p, const char *str, long int n)
+{
+	pthread_mutex_lock(p->log);
+	ft_putnbr(n);
+	write(1, " ", 1);
+	ft_putnbr(p->id + 1);
+	write(1, " ", 1);
+	ft_putstr(str);
+	write(1, "\n", 1);
+	pthread_mutex_unlock(p->log);
+}
+
 void	philo_log(t_philo *p, const char *str, int ignore)
 {
 	if (!ignore)
@@ -17,26 +29,41 @@ void	philo_log(t_philo *p, const char *str, int ignore)
 		pthread_mutex_unlock(p->log);
 }
 
+void		smart_sleep(long long end)
+{
+	while (ft_now() < end)
+		usleep(50);
+}
+
 int	philo_act(t_philo *p, pthread_mutex_t *first, pthread_mutex_t *last)
 {
-	usleep(10);
+	long long int aux;
 	while (1)
 	{
 		pthread_mutex_lock(first);
-		philo_log(p, "has taken a fork", 0);
+//		philo_log(p, "has taken a fork", 0);
+		numbered_philo_log(p, "has taken a fork", ft_now());
 		pthread_mutex_lock(last);
 		p->will_die = ft_now() + p->ttd;
-		philo_log(p, "has taken a fork", 0);
-		philo_log(p, "is eating", 0);
+		numbered_philo_log(p, "has taken a fork", ft_now());
+//		philo_log(p, "has taken a fork", 0);
+		aux = ft_now() + p->tte;
+		numbered_philo_log(p, "is eating", aux - p->tte);
+//		philo_log(p, "is eating", 0);
 		p->times_eaten++;
 		if (p->times_eaten == p->target)
 			*p->target_counter += 1;
-		usleep(1000 * p->tte);
-		philo_log(p, "is sleeping", 0);
+		smart_sleep(aux);
+		//usleep(1000 * p->tte);
+		aux = ft_now() + p->tts;
 		pthread_mutex_unlock(first);
 		pthread_mutex_unlock(last);
-		usleep(1000 * p->tts);
-		philo_log(p, "is thinking", 0);
+		numbered_philo_log(p, "is sleeping", aux - p->tts);
+//		philo_log(p, "is sleeping", 0);
+		smart_sleep(aux);
+		//usleep(1000 * p->tts);
+		numbered_philo_log(p, "is thinking", aux);
+//		philo_log(p, "is thinking", 0);
 	}
 	return (1);
 }

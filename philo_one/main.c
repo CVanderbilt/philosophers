@@ -71,11 +71,14 @@ int	awake_philos(t_control *c)
 		if (awake_philo(&c->arr[i], &c->who_died))
 			return (1);
 		pthread_detach(c->arr[i].tid);
+//		if (i % 2)
+//			usleep(15000);
 	}
 	while (1)
 		if ((c->who_died >= 0)
 			|| (c->target >= 0 && c->philosophers_ended >= c->num))
 			break ;
+	usleep(c->ttd * 1000);
 	return (0);
 }
 
@@ -88,5 +91,9 @@ int main(int argc, char *argv[])
 		write(1, "Invalid arguments\n", 18);
 		return (1);
 	}
+	//awake_philos(&c);
+	//write(1, "ttd: ", 5); ft_putnbr(c.ttd);
+	//write(1, "tte: ", 5); ft_putnbr(c.tte);
+	//write(1, "tts: ", 5); ft_putnbr(c.tts);
 	return (awake_philos(&c));
 }
