@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.h                                            :+:      :+:    :+:   */
+/*   log.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: eherrero <eduhgb5198@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,19 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_H
-# define UTILS_H
-# include <sys/time.h>
-# include <stdlib.h>
+#include "philo.h"
+#include "utils.h"
+#include <unistd.h>
+#include <stdio.h>
 
-int				ft_is_digit(char c);
-long long int	ft_now(void);
-int				ft_atoi(const char *str);
-int				ft_isint(const char *str);
-int				ft_strlen(const char *str);
+void	numbered_philo_log(t_philo *p, const char *str, long int n)
+{
+	pthread_mutex_lock(p->log);
+	ft_putnbr(n);
+	write(1, " ", 1);
+	ft_putnbr(p->id + 1);
+	write(1, " ", 1);
+	ft_putstr(str);
+	write(1, "\n", 1);
+	pthread_mutex_unlock(p->log);
+}
 
-int				ft_str_is_int(const char *str);
-void			ft_putstr(const char *str);
-void			ft_putnbr(uint64_t n);
-
-#endif
+void	philo_log(t_philo *p, const char *str, int ignore)
+{
+	if (!ignore)
+		pthread_mutex_lock(p->log);
+	ft_putnbr(ft_now());
+	write(1, " ", 1);
+	ft_putnbr(p->id + 1);
+	write(1, " ", 1);
+	ft_putstr(str);
+	write(1, "\n", 1);
+	if (!ignore)
+		pthread_mutex_unlock(p->log);
+}

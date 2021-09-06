@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eherrero <eduhgb5198@gmail.com>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/18 12:44:57 by ellaca-f          #+#    #+#             */
+/*   Updated: 2021/05/07 14:22:00 by ellaca-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "utils.h"
 #include <limits.h>
 #include <unistd.h>
 
-int ft_skip_char(const char *str, int i, char c)
+int	ft_skip_char(const char *str, int i, char c)
 {
 	while (str[i] == c)
 		i++;
@@ -54,7 +66,7 @@ int	ft_strisint(const char *str)
 
 void	ft_putstr(const char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (str[++i])

@@ -77,5 +77,4 @@ int	awake_philo(t_philo *p, int *control)
 	p->control = control;
 	p->will_die = ft_now() + p->ttd;
 	return ((int)philo_thread(p));
-	//return (pthread_create(&p->tid, 0, philo_thread, p));
 }

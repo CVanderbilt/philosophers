@@ -1,31 +1,35 @@
-NAME=philo_one
 
-CC=gcc
+SRCS	= main.c
 
-CFLAGS= -Wall -Wextra -Werror
+SRCS	+= philo_one.c utils1.c utils2.c log.c
 
-RM=rm -f
+OBJS	= $(SRCS:.c=.o)
 
-LDFLAGS=-L.
+NAME	= philo
 
-LDLIBS=-lft
+CC		= gcc
 
-SRC=main.c philo_one.c utils1.c utils2.c
+FLAGS	= -Wall -Wextra -Werror
 
-OBJ=$(SRC:.c=.o)
+HEADER	= philo.h
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) -c $(SRC)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ)
 
-all: $(NAME)
+
+
+all:	$(NAME)
+
+.PHONY:	clean fclean re bonus bench bclean
+
+$(NAME): $(OBJS)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
 
 clean:
-	$(RM) $(OBJ)
+	rm -f $(OBJS) $(B_OBJS)
 
 fclean: clean
-	$(RM) -rf $(NAME) $(NAME).dSYM
+	rm -f $(NAME) $(BONUS)
 
 re: fclean all
 
-.PHONY: clean fclean all bonus
+%.o: %.c $(HEADER)
+	$(CC) $(FLAGS) -c $<  -o $(<:.c=.o)
