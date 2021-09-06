@@ -39,7 +39,7 @@ int	init(int argc, char *argv[], t_control *c)
 		if (!ft_str_is_int(argv[5]) || c->target < 0)
 			return (0);
 	}
-	c->arr = (t_philo *)malloc(sizeof(t_philo *) * c->num);
+	c->arr = (t_philo *)malloc(sizeof(t_philo) * c->num);
 	if (!c->arr)
 		return (0);
 	i = -1;

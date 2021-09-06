@@ -2,7 +2,7 @@ NAME=philo_one
 
 CC=gcc
 
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS= -g -fsanitize=address -Wall -Wextra -Werror
 
 RM=rm -f
 

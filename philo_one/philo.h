@@ -32,14 +32,15 @@ typedef struct s_control
 {
 	t_philo	*arr;
 	pthread_mutex_t *forks;
+	int				*used_forks;
 	pthread_mutex_t log;
-	int		philosophers_ended;
-	int		target;
-	int		ttd;
-	int		tte;
-	int		tts;
-	int		num;
-	int		who_died;
+	int				philosophers_ended;
+	int				target;
+	int				ttd;
+	int				tte;
+	int				tts;
+	int				num;
+	int				who_died;
 }	t_control;
 
 void	*philo_thread(void *d);

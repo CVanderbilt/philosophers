@@ -19,6 +19,7 @@ void	philo_log(t_philo *p, const char *str, int ignore)
 
 int	philo_act(t_philo *p, pthread_mutex_t *first, pthread_mutex_t *last)
 {
+	usleep(10);
 	while (1)
 	{
 		pthread_mutex_lock(first);
@@ -31,7 +32,7 @@ int	philo_act(t_philo *p, pthread_mutex_t *first, pthread_mutex_t *last)
 		if (p->times_eaten == p->target)
 			*p->target_counter += 1;
 		usleep(1000 * p->tte);
-		philo_log(p, "is sleepin", 0);
+		philo_log(p, "is sleeping", 0);
 		pthread_mutex_unlock(first);
 		pthread_mutex_unlock(last);
 		usleep(1000 * p->tts);
