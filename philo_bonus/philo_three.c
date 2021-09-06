@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_three.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eherrero <eduhgb5198@gmail.com>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/02/18 12:44:57 by eherrero          #+#    #+#             */
+/*   Updated: 2021/05/07 14:22:00 by eherrero         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 #include "utils.h"
 #include <unistd.h>
@@ -23,12 +35,7 @@ int	philo_act(t_philo *p)
 		numbered_philo_log(p, "is eating", aux);
 		p->times_eaten++;
 		if (p->times_eaten == p->target)
-			*p->target_counter += 1; //cambiar esto por un semaforo al que hacer post
-			//en el programa principal tiene que haber un thread bloqueado que si se desbloquea
-			//silencie a todo el mundo y acabe el programa.
-			//formas de silenciar -> con un flag concreto, cuando no está los logs no hacen nada
-			//formad de matar -> cambiando el ttd de los filosofos a -1, si en vez de tener una copia
-			//tienen una referencia al ttd de control solo haría falta cambiar una variable.
+			sem_post(p->tcsem);
 		smart_sleep(aux + p->tte);
 		aux = ft_now();
 		numbered_philo_log(p, "is sleeping", aux);
@@ -37,12 +44,14 @@ int	philo_act(t_philo *p)
 		smart_sleep(aux + p->tts);
 		philo_log(p, "is thinking", 0);
 	}
+	while (1)
+		usleep(50);
 	return (1);
 }
 
 void	*philo_checker(void *d)
 {
-	t_philo	*p;
+	t_philo			*p;
 	long long int	t;
 
 	p = (t_philo *)d;
