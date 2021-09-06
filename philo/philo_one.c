@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: eherrero <eduhgb5198@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/02/18 12:44:57 by ellaca-f          #+#    #+#             */
-/*   Updated: 2021/05/07 14:22:00 by ellaca-f         ###   ########.fr       */
+/*   Created: 2021/02/18 12:44:57 by eherrero          #+#    #+#             */
+/*   Updated: 2021/05/07 14:22:00 by eherrero         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	philo_act(t_philo *p, pthread_mutex_t *first, pthread_mutex_t *last)
 		pthread_mutex_lock(first);
 		numbered_philo_log(p, "has taken a fork", ft_now());
 		pthread_mutex_lock(last);
-		p->will_die = ft_now() + p->ttd;
-		numbered_philo_log(p, "has taken a fork", ft_now());
 		aux = ft_now() + p->tte;
+		p->will_die = aux + p->ttd - p->tte;
+		numbered_philo_log(p, "has taken a fork", ft_now());
 		numbered_philo_log(p, "is eating", aux - p->tte);
 		p->times_eaten++;
 		if (p->times_eaten == p->target)

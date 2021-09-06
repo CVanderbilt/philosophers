@@ -5,7 +5,7 @@ int	ft_is_digit(char c)
 	return (c >= 48 && c <= 57);
 }
 
-uint64_t
+long long int
 	ft_now(void)
 {
 	static struct timeval	tv;

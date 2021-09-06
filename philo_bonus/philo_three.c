@@ -3,37 +3,38 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void	philo_log(t_philo *p, const char *str, int ignore)
+void	smart_sleep(long long end)
 {
-	if (!ignore)
-		sem_wait(p->log);
-	ft_putnbr(ft_now());
-	write(1, " ", 1);
-	ft_putnbr(p->id + 1);
-	write(1, " ", 1);
-	ft_putstr(str);
-	write(1, "\n", 1);
-	if (!ignore)
-		sem_post(p->log);
+	while (ft_now() < end)
+		usleep(50);
 }
 
 int	philo_act(t_philo *p)
 {
+	long long int	aux;
+
 	while (1)
 	{
 		sem_wait(p->forks);
-		philo_log(p, "has taken a fork", 0);
-		philo_log(p, "has taken a fork", 0);
-		p->will_die = ft_now() + p->ttd;
-		philo_log(p, "is eating", 0);
+		aux = ft_now();
+		numbered_philo_log(p, "has taken a fork", aux);
+		numbered_philo_log(p, "has taken a fork", aux);
+		p->will_die = aux + p->ttd;
+		numbered_philo_log(p, "is eating", aux);
 		p->times_eaten++;
 		if (p->times_eaten == p->target)
-			*p->target_counter += 1;
-		usleep(1000 * p->tte);
-		philo_log(p, "is sleepin", 0);
+			*p->target_counter += 1; //cambiar esto por un semaforo al que hacer post
+			//en el programa principal tiene que haber un thread bloqueado que si se desbloquea
+			//silencie a todo el mundo y acabe el programa.
+			//formas de silenciar -> con un flag concreto, cuando no está los logs no hacen nada
+			//formad de matar -> cambiando el ttd de los filosofos a -1, si en vez de tener una copia
+			//tienen una referencia al ttd de control solo haría falta cambiar una variable.
+		smart_sleep(aux + p->tte);
+		aux = ft_now();
+		numbered_philo_log(p, "is sleeping", aux);
 		sem_post(p->forks);
 		sem_post(p->forks);
-		usleep(1000 * p->tts);
+		smart_sleep(aux + p->tts);
 		philo_log(p, "is thinking", 0);
 	}
 	return (1);
