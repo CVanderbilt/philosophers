@@ -75,7 +75,7 @@ int	init(int argc, char *argv[], t_control *c)
 		if (!ft_strisint(argv[5]) || c->target < 0)
 			return (0);
 	}
-	c->arr = (t_philo *)malloc(sizeof(t_philo *) * c->num);
+	c->arr = (t_philo *)malloc(sizeof(t_philo) * c->num);
 	if (!c->arr)
 		return (0);
 	return (aux_init(c));
@@ -113,11 +113,14 @@ int	awake_philos(t_control *c)
 int	main(int argc, char *argv[])
 {
 	t_control	c;
+	int			ret;
 
 	if (!init(argc, argv, &c))
 	{
 		write(1, "Invalid arguments\n", 18);
 		return (1);
 	}
-	return (awake_philos(&c));
+	ret = awake_philos(&c);
+	free(c.arr);
+	return (ret);
 }
