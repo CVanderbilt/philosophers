@@ -21,7 +21,7 @@ int				ft_atoi(const char *str);
 int				ft_isint(const char *str);
 int				ft_strlen(const char *str);
 
-int				ft_str_is_int(const char *str);
+int				ft_strisint(const char *str);
 void			ft_putstr(const char *str);
 void			ft_putnbr(uint64_t n);
 
