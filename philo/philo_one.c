@@ -25,7 +25,7 @@ int	philo_act(t_philo *p, pthread_mutex_t *first, pthread_mutex_t *last)
 {
 	long long int	aux;
 
-	while (!*p->kill_himself)
+	while (42)
 	{
 		pthread_mutex_lock(first);
 		numbered_philo_log(p, "has taken a fork", ft_now());
@@ -52,22 +52,25 @@ int	philo_act(t_philo *p, pthread_mutex_t *first, pthread_mutex_t *last)
 void	*philo_checker(void *d)
 {
 	t_philo			*p;
-	long long int	t;
 
 	p = (t_philo *)d;
 	while (42)
 	{
-		if (*p->kill_himself)
-			return (0);
-		t = ft_now();
-		if (t >= p->will_die)
+		pthread_mutex_lock(p->log);
+		if (ft_now() >= p->will_die)
 		{
-			if (*p->control >= 0)
-				return (0);
-			philo_log(p, "died", 0);
-			*p->control = p->id;
-			return (0);
+			philo_log(p, "died", 1);
+			*p->control = 1;
+			while (1)
+				usleep(999999);
 		}
+		else if (p->target > 0 && *p->target_counter >= p->num)
+		{
+			*p->control = 1;
+			while (1)
+				usleep(999999);
+		}
+		pthread_mutex_unlock(p->log);
 		usleep(1000);
 	}
 }
