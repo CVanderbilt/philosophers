@@ -46,7 +46,6 @@ typedef struct s_control
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	log;
 	int				philosophers_ended;
-	int				kill_all;
 	int				target;
 	int				ttd;
 	int				tte;

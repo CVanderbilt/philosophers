@@ -96,7 +96,6 @@ int	awake_philos(t_control *c)
 			|| (c->target >= 0 && c->philosophers_ended >= c->num))
 			break ;
 	pthread_mutex_lock(&c->log);
-	c->kill_all = 1;
 	usleep(c->ttd * 1100);
 	return (0);
 }
