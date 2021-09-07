@@ -96,7 +96,6 @@ int	awake_philos(t_control *c)
 			|| (c->target >= 0 && c->philosophers_ended >= c->num))
 			break ;
 	pthread_mutex_lock(&c->log);
-	//usleep(c->tte * 1000);
 	return (0);
 }
 
@@ -117,6 +116,5 @@ int	main(int argc, char *argv[])
 		pthread_mutex_destroy(&c.forks[i++]);
 	free(c.arr);
 	free(c.forks);
-	//getchar();
 	return (ret);
 }
