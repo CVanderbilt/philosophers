@@ -40,7 +40,6 @@ int	philo_act(t_philo *p)
 		aux = ft_now();
 		numbered_philo_log(p, "is sleeping", aux);
 		sem_post(p->forks);
-		sem_post(p->forks);
 		smart_sleep(aux + p->tts);
 		philo_log(p, "is thinking", 0);
 	}
