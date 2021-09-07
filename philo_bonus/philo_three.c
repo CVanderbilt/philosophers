@@ -62,7 +62,7 @@ void	*philo_checker(void *d)
 		{
 			sem_wait(p->log);
 			philo_log(p, "died", 1);
-			*p->control = p->id;
+			sem_post(p->diesem);
 			return (0);
 		}
 		usleep(1000);

@@ -25,6 +25,8 @@ int	aux_init(t_control *c)
 	sem_unlink("forks");
 	sem_unlink("log");
 	sem_unlink("tcsem");
+	sem_unlink("diesem");
+	c->diesem = sem_open("diesem", O_CREAT | O_EXCL, 0644, 0);
 	c->tcsem = sem_open("tcsem", O_CREAT | O_EXCL, 0644, 0);
 	c->forks = sem_open("forks", O_CREAT | O_EXCL, 0644, c->num / 2);
 	c->log = sem_open("log", O_CREAT | O_EXCL, 0644, 1);
@@ -37,6 +39,7 @@ int	aux_init(t_control *c)
 		c->arr[i].forks = c->forks;
 		c->arr[i].log = c->log;
 		c->arr[i].tcsem = c->tcsem;
+		c->arr[i].diesem = c->diesem;
 		c->arr[i].times_eaten = 0;
 		c->arr[i].target_counter = &c->philosophers_ended;
 		c->arr[i].target = c->target;
@@ -84,7 +87,18 @@ void	*target_checker(void *d)
 	i = -1;
 	while (++i < c->num)
 		sem_wait(c->tcsem);
+	sem_wait(c->log);
 	c->philosophers_ended = c->num;
+	return (0);
+}
+
+void	*dead_checker(void *d)
+{
+	t_control	*c;
+
+	c = (t_control *)d;
+	sem_wait(c->diesem);
+	c->who_died = 1;
 	return (0);
 }
 
@@ -94,8 +108,6 @@ int	awake_philos(t_control *c)
 	pthread_t	cid;
 
 	i = -1;
-	pthread_create(&cid, 0, target_checker, c);
-	pthread_detach(cid);
 	while (++i < c->num)
 	{
 		c->arr[i].pid = fork();
@@ -105,11 +117,14 @@ int	awake_philos(t_control *c)
 			if (awake_philo(&c->arr[i], &c->who_died))
 				return (1);
 	}
+	pthread_create(&cid, 0, target_checker, c);
+	pthread_detach(cid);
+	pthread_create(&cid, 0, dead_checker, c);
+	pthread_detach(cid);
 	while (1)
 		if ((c->who_died >= 0)
 			|| (c->target >= 0 && c->philosophers_ended >= c->num))
 			break ;
-	sem_wait(c->log);
 	i = -1;
 	while (++i < c->num)
 		kill(c->arr[i].pid, SIGINT);

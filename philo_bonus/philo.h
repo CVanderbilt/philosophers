@@ -40,6 +40,7 @@ typedef struct s_philo
 	int				target;
 	int				*target_counter;
 	sem_t			*tcsem;
+	sem_t			*diesem;
 	long long int	will_die;
 	int				*control;
 }	t_philo;
@@ -50,6 +51,7 @@ typedef struct s_control
 	sem_t	*log;
 	sem_t	*forks;
 	sem_t	*tcsem;
+	sem_t	*diesem;
 	int		philosophers_ended;
 	int		target;
 	int		ttd;
