@@ -17,11 +17,8 @@
 #include <unistd.h>
 #include <signal.h>
 
-int	aux_init(t_control *c)
+void	init_semaphores(t_control *c)
 {
-	int	i;
-
-	i = -1;
 	sem_unlink("forks");
 	sem_unlink("log");
 	sem_unlink("tcsem");
@@ -30,6 +27,14 @@ int	aux_init(t_control *c)
 	c->tcsem = sem_open("tcsem", O_CREAT | O_EXCL, 0644, 0);
 	c->forks = sem_open("forks", O_CREAT | O_EXCL, 0644, c->num / 2);
 	c->log = sem_open("log", O_CREAT | O_EXCL, 0644, 1);
+}
+
+int	aux_init(t_control *c)
+{
+	int	i;
+
+	i = -1;
+	init_semaphores(c);
 	while (++i < c->num)
 	{
 		c->arr[i].id = i;
@@ -74,32 +79,6 @@ int	init(int argc, char *argv[], t_control *c)
 	if (!c->arr)
 		return (0);
 	return (aux_init(c));
-}
-
-void	*target_checker(void *d)
-{
-	t_control	*c;
-	int			i;
-
-	c = (t_control *)d;
-	if (c->target < 0)
-		return (0);
-	i = -1;
-	while (++i < c->num)
-		sem_wait(c->tcsem);
-	sem_wait(c->log);
-	c->philosophers_ended = c->num;
-	return (0);
-}
-
-void	*dead_checker(void *d)
-{
-	t_control	*c;
-
-	c = (t_control *)d;
-	sem_wait(c->diesem);
-	c->who_died = 1;
-	return (0);
 }
 
 int	awake_philos(t_control *c)
