@@ -60,5 +60,6 @@ void	*philo_thread(void *d);
 int		awake_philo(t_philo *p, int *control);
 void	numbered_philo_log(t_philo *p, const char *str, long int n);
 void	philo_log(t_philo *p, const char *str, int ignore);
+int		ft_strisint(const char *str);
 
 #endif

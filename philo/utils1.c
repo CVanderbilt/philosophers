@@ -44,35 +44,6 @@ int	ft_atoi(const char *str)
 	return (ret * sign);
 }
 
-int	ft_str_is_int(const char *str)
-{
-	const char	*cmp;
-	int			len;
-	int			cmp_len;
-	int			i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	if (str[0] == '-')
-		cmp = "-2147483648";
-	else
-		cmp = "2147483647";
-	cmp_len = ft_strlen(cmp);
-	len = ft_strlen(str);
-	if (len < cmp_len)
-		return (1);
-	if (len > cmp_len)
-		return (0);
-	while (i < len)
-	{
-		if (str[i] > cmp[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
 int	ft_strlen(const char *str)
 {
 	int	i;

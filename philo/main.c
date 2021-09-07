@@ -47,8 +47,8 @@ int	aux_init(t_control *c)
 int	parsing(int argc, char *argv[], t_control *c)
 {
 	if (argc < 5 || argc > 6
-		|| !ft_str_is_int(argv[1]) || !ft_str_is_int(argv[2])
-		|| !ft_str_is_int(argv[3]) || !ft_str_is_int(argv[4]))
+		|| !ft_strisint(argv[1]) || !ft_strisint(argv[2])
+		|| !ft_strisint(argv[3]) || !ft_strisint(argv[4]))
 		return (0);
 	c->num = ft_atoi(argv[1]);
 	if (c->num <= 0)
@@ -76,7 +76,7 @@ int	init(int argc, char *argv[], t_control *c)
 	if (argc == 6)
 	{
 		c->target = ft_atoi(argv[5]);
-		if (!ft_str_is_int(argv[5]) || c->target < 0)
+		if (!ft_strisint(argv[5]) || c->target < 0)
 			return (0);
 	}
 	return (aux_init(c));
