@@ -51,19 +51,18 @@ int	philo_act(t_philo *p)
 void	*philo_checker(void *d)
 {
 	t_philo			*p;
-	long long int	t;
 
 	p = (t_philo *)d;
 	while (42)
 	{
-		t = ft_now();
-		if (t >= p->will_die)
+		sem_wait(p->log);
+		if (ft_now() >= p->will_die)
 		{
-			sem_wait(p->log);
 			philo_log(p, "died", 1);
 			sem_post(p->diesem);
 			return (0);
 		}
+		sem_post(p->log);
 		usleep(1000);
 	}
 }
