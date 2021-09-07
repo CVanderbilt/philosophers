@@ -17,26 +17,32 @@
 
 void	numbered_philo_log(t_philo *p, const char *str, long int n)
 {
-	pthread_mutex_lock(p->log);
-	ft_putnbr(n);
-	write(1, " ", 1);
-	ft_putnbr(p->id + 1);
-	write(1, " ", 1);
-	ft_putstr(str);
-	write(1, "\n", 1);
-	pthread_mutex_unlock(p->log);
+	if (!*p->kill_himself)
+	{
+		pthread_mutex_lock(p->log);
+		ft_putnbr(n);
+		write(1, " ", 1);
+		ft_putnbr(p->id + 1);
+		write(1, " ", 1);
+		ft_putstr(str);
+		write(1, "\n", 1);
+		pthread_mutex_unlock(p->log);
+	}
 }
 
 void	philo_log(t_philo *p, const char *str, int ignore)
 {
-	if (!ignore)
-		pthread_mutex_lock(p->log);
-	ft_putnbr(ft_now());
-	write(1, " ", 1);
-	ft_putnbr(p->id + 1);
-	write(1, " ", 1);
-	ft_putstr(str);
-	write(1, "\n", 1);
-	if (!ignore)
-		pthread_mutex_unlock(p->log);
+	if (!*p->kill_himself)
+	{
+		if (!ignore)
+			pthread_mutex_lock(p->log);
+		ft_putnbr(ft_now());
+		write(1, " ", 1);
+		ft_putnbr(p->id + 1);
+		write(1, " ", 1);
+		ft_putstr(str);
+		write(1, "\n", 1);
+		if (!ignore)
+			pthread_mutex_unlock(p->log);
+	}
 }

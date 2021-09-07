@@ -37,6 +37,7 @@ typedef struct s_philo
 	int				target;
 	int				*target_counter;
 	long long int	will_die;
+	int				*kill_himself;
 	int				*control;
 }	t_philo;
 
@@ -45,6 +46,7 @@ typedef struct s_control
 	t_philo			*arr;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	log;
+	int				kill_all;
 	int				philosophers_ended;
 	int				target;
 	int				ttd;

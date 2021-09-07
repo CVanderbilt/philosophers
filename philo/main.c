@@ -20,6 +20,7 @@ int	aux_init(t_control *c)
 {
 	int	i;
 
+	c->kill_all = 0;
 	c->arr = (t_philo *)malloc(sizeof(t_philo) * c->num);
 	if (!c->arr)
 		return (0);
@@ -38,6 +39,7 @@ int	aux_init(t_control *c)
 		c->arr[i].times_eaten = 0;
 		c->arr[i].target_counter = &c->philosophers_ended;
 		c->arr[i].target = c->target;
+		c->arr[i].kill_himself = &c->kill_all;
 	}
 	return (1);
 }
@@ -95,7 +97,8 @@ int	awake_philos(t_control *c)
 		if ((c->who_died >= 0)
 			|| (c->target >= 0 && c->philosophers_ended >= c->num))
 			break ;
-	pthread_mutex_lock(&c->log);
+	c->kill_all = 1;
+	usleep(1000 * (c->tte + c->ttd + c->tts + 1));
 	return (0);
 }
 

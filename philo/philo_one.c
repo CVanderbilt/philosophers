@@ -25,7 +25,7 @@ int	philo_act(t_philo *p, pthread_mutex_t *first, pthread_mutex_t *last)
 {
 	long long int	aux;
 
-	while (1)
+	while (!*p->kill_himself)
 	{
 		pthread_mutex_lock(first);
 		numbered_philo_log(p, "has taken a fork", ft_now());
@@ -57,6 +57,8 @@ void	*philo_checker(void *d)
 	p = (t_philo *)d;
 	while (42)
 	{
+		if (*p->kill_himself)
+			return (0);
 		t = ft_now();
 		if (t >= p->will_die)
 		{
