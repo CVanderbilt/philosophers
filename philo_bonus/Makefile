@@ -1,7 +1,7 @@
 
 SRCS	= main.c
 
-SRCS	+= philo_three.c utils1.c utils2.c log.c
+SRCS	+= philo_three.c utils1.c utils2.c log.c main_checkers.c
 
 OBJS	= $(SRCS:.c=.o)
 
