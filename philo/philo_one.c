@@ -44,6 +44,7 @@ int	philo_act(t_philo *p, pthread_mutex_t *first, pthread_mutex_t *last)
 		numbered_philo_log(p, "is sleeping", aux - p->tts);
 		smart_sleep(aux);
 		numbered_philo_log(p, "is thinking", aux);
+		usleep(500);
 	}
 	return (1);
 }
@@ -79,7 +80,7 @@ void	*philo_thread(void *d)
 	p = (t_philo *)d;
 	first = p->right;
 	last = p->left;
-	if (p->id % 2)
+	if (p->id % 2 != 0)
 	{
 		first = p->left;
 		last = p->right;
